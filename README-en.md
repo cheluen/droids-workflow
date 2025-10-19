@@ -23,19 +23,26 @@ Droids is a comprehensive Claude Code plugin that provides an intelligent coding
 ### Option 1: From Plugin Marketplace (Recommended)
 
 ```bash
-# Add the marketplace
+# Run in Claude Code
 /plugin marketplace add cheluen/droids-workflow
-
-# Install the plugin
 /plugin install droids
 ```
 
 ### Option 2: Manual Installation
 
-1. Clone this repository
-2. Copy the plugin directory to your Claude Code plugins folder:
-   - **Project-level**: `.claude/plugins/droids/`
-   - **User-level**: `~/.claude/plugins/droids/`
+```bash
+# 1. Clone the repository
+git clone https://github.com/cheluen/droids-workflow.git
+
+# 2. Copy to Claude Code plugins directory
+# Project-level (current project only)
+mkdir -p .claude/plugins/droids
+cp -r droids-workflow/* .claude/plugins/droids/
+
+# Or user-level (globally available)
+mkdir -p ~/.claude/plugins/droids
+cp -r droids-workflow/* ~/.claude/plugins/droids/
+```
 
 ## 🚀 Quick Start
 

@@ -20,7 +20,7 @@ Launch the **task-orchestrator** agent to handle this requirement using the Task
 
 1. **Call the Task tool** with the following parameters:
    
-   - **subagent_type**: `"task-orchestrator"`
+   - **subagent_type**: `"droids:task-orchestrator"`
    
    - **description**: `"Coordinate coding workflow for: $ARGUMENTS"`
    

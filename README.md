@@ -24,19 +24,26 @@ Droids 是一个全面的 Claude Code 插件，提供智能编码工作流系统
 ### 方式 1：从插件市场安装（推荐）
 
 ```bash
-# 添加市场
+# 在 Claude Code 中执行以下命令
 /plugin marketplace add cheluen/droids-workflow
-
-# 安装插件
 /plugin install droids
 ```
 
 ### 方式 2：手动安装
 
-1. 克隆此仓库
-2. 将插件目录复制到 Claude Code 插件文件夹：
-   - **项目级别**：`.claude/plugins/droids/`
-   - **用户级别**：`~/.claude/plugins/droids/`
+```bash
+# 1. 克隆仓库
+git clone https://github.com/cheluen/droids-workflow.git
+
+# 2. 复制到 Claude Code 插件目录
+# 项目级别（仅当前项目可用）
+mkdir -p .claude/plugins/droids
+cp -r droids-workflow/* .claude/plugins/droids/
+
+# 或用户级别（全局可用）
+mkdir -p ~/.claude/plugins/droids
+cp -r droids-workflow/* ~/.claude/plugins/droids/
+```
 
 ## 🚀 快速开始
 

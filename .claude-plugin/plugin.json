@@ -1,0 +1,10 @@
+{
+  "name": "droids",
+  "version": "1.0.0",
+  "description": "Intelligent coding workflow system with automated analysis-code-test-review loop. Coordinates specialized AI agents to handle complex coding tasks with quality assurance.",
+  "author": {
+    "name": "cheluen"
+  },
+  "repository": "https://github.com/cheluen/droids-workflow",
+  "license": "MIT"
+}

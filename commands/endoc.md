@@ -23,7 +23,7 @@ Launch the **doc-writer** agent to generate comprehensive English documentation 
 1. **First, launch the code-analyzer agent** to understand the project structure:
 
    **Call the Task tool** with:
-   - **subagent_type**: `"code-analyzer"`
+   - **subagent_type**: `"droids:code-analyzer"`
    - **description**: `"Analyze codebase structure for English documentation generation"`
    - **prompt**:
    ```
@@ -45,7 +45,7 @@ Launch the **doc-writer** agent to generate comprehensive English documentation 
 2. **Then, launch the doc-writer agent** for English documentation:
 
    **Call the Task tool** with:
-   - **subagent_type**: `"doc-writer"`
+   - **subagent_type**: `"droids:doc-writer"`
    - **description**: `"Generate comprehensive English documentation from code analysis"`
    - **prompt**:
    ```

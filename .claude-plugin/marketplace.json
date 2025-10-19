@@ -1,0 +1,24 @@
+{
+  "name": "droids-workflow",
+  "owner": {
+    "name": "cheluen"
+  },
+  "metadata": {
+    "description": "智能编码工作流插件市场",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "droids",
+      "source": "./",
+      "description": "通过专业 AI 代理团队协调复杂编码任务，具有自动化的分析-测试-审查反馈循环和质量保证机制",
+      "version": "1.0.0",
+      "author": {
+        "name": "cheluen"
+      },
+      "repository": "https://github.com/cheluen/droids-workflow",
+      "license": "MIT",
+      "keywords": ["workflow", "testing", "code-review", "documentation", "automation", "chinese"]
+    }
+  ]
+}
