@@ -34,7 +34,7 @@ Launch the doc-writer agent:
 
 ```
 Task tool parameters:
-- subagent_type: "droids:doc-writer"
+- subagent_type: "doc-writer"
 - description: "Generate Chinese documentation for: [target or entire project]"
 - prompt: "Generate comprehensive Chinese (中文) documentation.
 
