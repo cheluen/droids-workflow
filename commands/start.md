@@ -6,100 +6,89 @@ model: inherit
 
 # Droids Coding Workflow
 
-You are handling a coding task with intelligent workflow and quality assurance.
-
 ## User Requirement
 
 $ARGUMENTS
 
-## Your Task
+## Workflow Overview
 
-Implement the user's requirement following this structured workflow:
+You will coordinate specialized agents to complete this coding task with quality assurance. After implementing the core functionality yourself, you MUST use the following agents:
 
-### Phase 1: Analyze & Plan
+1. **test-engineer** agent - For comprehensive testing
+2. **code-reviewer** agent - For quality and security review
+3. **doc-writer** agent (optional) - For documentation
+
+## Step-by-Step Process
+
+### Step 1: Analyze & Plan (You do this)
 
 1. Read CLAUDE.md if it exists to understand project standards
 2. Analyze the codebase structure relevant to the requirement
 3. Create a clear implementation plan
 4. Use TodoWrite to track your plan
 
-### Phase 2: Implement
+### Step 2: Implement Core Functionality (You do this)
 
-1. Implement the core functionality directly
+1. Implement the required functionality directly
 2. Make necessary file changes
 3. Follow coding standards from CLAUDE.md
 4. Handle edge cases and errors properly
 
-### Phase 3: Test (Use test-engineer agent)
+### Step 3: Use test-engineer Agent (REQUIRED)
 
-After implementation, use the **test-engineer** agent to write and run comprehensive tests:
+After implementation, use the **test-engineer** agent to write and run comprehensive tests.
 
-- Backend tests (if applicable): unit tests, integration tests, API tests
-- Frontend tests (if applicable): component tests, E2E tests
-- Contract tests: verify frontend-backend API alignment
-- Run tests and report coverage
+Provide the agent with:
+- The implemented code/feature
+- Test requirements: backend tests (unit, integration, API), frontend tests (component, E2E), contract tests
 
-### Phase 4: Review (Use code-reviewer agent)
+The agent should:
+- Write tests following project patterns
+- Run all tests
+- Report coverage and results
 
-After tests pass, use the **code-reviewer** agent to assess code quality:
+### Step 4: Use code-reviewer Agent (REQUIRED)
 
-- Check for security vulnerabilities
-- Verify code quality and maintainability
-- Identify performance issues
-- Ensure standards compliance with CLAUDE.md
+After tests pass, use the **code-reviewer** agent to assess code quality.
 
-### Phase 5: Iterate if Needed
+Provide the agent with:
+- The implemented code
+- Test results from step 3
 
-- If tests fail: Analyze failures, fix code, re-test
-- If review finds critical issues: Address them, re-test, re-review
-- Maximum 3 iterations per phase
+The agent should check:
+- Security vulnerabilities
+- Code quality and maintainability
+- Performance issues
+- Standards compliance with CLAUDE.md
 
-### Phase 6: Document (Use doc-writer agent, optional)
+### Step 5: Iterate if Needed
 
-If documentation is needed, use the **doc-writer** agent to:
+- If tests fail: Fix the code and re-run test-engineer agent
+- If review finds critical issues: Address them, then re-test and re-review
+- Maximum 3 iterations
 
+### Step 6: Use doc-writer Agent (Optional)
+
+If documentation is needed, use the **doc-writer** agent.
+
+The agent should:
 - Add inline comments (JSDoc/docstring) for key functions
-- Create/update API documentation if new endpoints added
-- Update README if project structure changed
+- Create/update API documentation
+- Update README if needed
 
-### Phase 7: Complete
+### Step 7: Report Completion
 
-- Verify all requirements met
-- Confirm all tests passing
-- Provide completion summary to user
+Provide a summary to the user including:
+- What was implemented
+- Test results (all passing)
+- Code review results (approved)
+- Any documentation created
 
-## Language Handling
+## Important Notes
 
-Detect user's language from their requirement and respond in the same language:
-- If Chinese (中文): Respond in Chinese
-- If English: Respond in English
+- **You must use the agents** - Don't skip the test-engineer and code-reviewer steps
+- Detect user's language and respond in the same language (Chinese/中文 or English)
+- Keep the user informed with clear progress updates
+- Follow CLAUDE.md standards throughout
 
-## Progress Reporting
-
-Provide clear status updates to the user:
-
-```
-## Current Phase
-[What you're doing now]
-
-## Progress
-- ✅ Completed
-- 🔄 In progress
-- ⏳ Pending
-
-## Results
-[Summary of current phase]
-
-## Next Steps
-[What happens next]
-```
-
-## Key Points
-
-1. **You handle implementation directly** - Don't delegate core coding
-2. **Use specialized agents for support** - Testing, review, documentation
-3. **Iterate when needed** - Fix issues until quality standards met
-4. **Follow CLAUDE.md** - Respect project-specific rules
-5. **Keep user informed** - Clear progress updates in their language
-
-Start by analyzing the requirement and creating an implementation plan!
+Start now by analyzing the requirement and creating your implementation plan!
