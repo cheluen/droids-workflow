@@ -1,132 +1,89 @@
 ---
-description: Generate comprehensive Chinese documentation by analyzing code directly, ignoring existing comments and docs to ensure accuracy
+description: Generate comprehensive Chinese documentation by analyzing code directly
 argument-hint: [optional: specific file or module to document]
 model: inherit
 ---
 
-# Generate Chinese Documentation from Code
+# Generate Chinese Documentation
 
-You are initiating the **Chinese Documentation Generation** workflow.
+Generate comprehensive Chinese (中文) documentation by analyzing code directly.
 
-## Target for Documentation
+## Target
 
 $ARGUMENTS
 
-If no specific target provided, document the entire project.
+If no target specified, document the entire project.
 
 ## Your Task
 
-Launch the **doc-writer** agent to generate comprehensive Chinese documentation by analyzing code directly.
+**You will coordinate Chinese documentation generation.**
 
-### Step-by-Step Instructions
+### Step 1: Analyze Project Structure (You do this)
 
-1. **First, launch the code-analyzer agent** to understand the project structure:
+1. Read the codebase to understand structure:
+   - Main features and functionality
+   - API endpoints (if backend)
+   - Key components (if frontend)
+   - Configuration requirements
 
-   **Call the Task tool** with:
-   - **subagent_type**: `"droids:code-analyzer"`
-   - **description**: `"Analyze codebase structure for Chinese documentation generation"`
-   - **prompt**:
-   ```
-   Analyze the project structure and identify all components that need documentation.
+2. Identify what needs documentation
 
-   Focus on:
-   1. Main features and functionality
-   2. API endpoints (if backend)
-   3. Key components (if frontend)
-   4. Core utilities and services
-   5. Data models and schemas
-   6. Configuration requirements
+### Step 2: Generate Documentation (Use doc-writer agent)
 
-   Target: $ARGUMENTS (or entire project if not specified)
+Launch the doc-writer agent:
 
-   Provide a comprehensive analysis that will guide Chinese documentation generation.
-   
-   Output in English for precision (the doc-writer will generate Chinese docs).
-   ```
+```
+Task tool parameters:
+- subagent_type: "droids:doc-writer"
+- description: "Generate Chinese documentation for: [target or entire project]"
+- prompt: "Generate comprehensive Chinese (中文) documentation.
 
-2. **Then, launch the doc-writer agent** for Chinese documentation:
+Target: $ARGUMENTS (or entire project if not specified)
 
-   **Call the Task tool** with:
-   - **subagent_type**: `"droids:doc-writer"`
-   - **description**: `"Generate comprehensive Chinese documentation from code analysis"`
-   - **prompt**:
-   ```
-   Generate comprehensive documentation in Chinese (中文) based on direct code analysis.
+**CRITICAL Instructions:**
+1. Read code files directly to understand functionality
+2. DO NOT rely on existing comments or documentation (may be outdated)
+3. Generate fresh documentation based on actual code behavior
+4. All documentation must be in Chinese (中文)
 
-   Target: $ARGUMENTS (or entire project if not specified)
+**Generate:**
 
-   **IMPORTANT Instructions:**
-   1. **Read code directly**: Analyze source code files to understand functionality
-   2. **Ignore existing documentation**: Do NOT rely on existing comments, docs, or README
-      - Existing docs may be outdated or incorrect
-      - Generate fresh documentation from actual code behavior
-   3. **Ensure accuracy**: Documentation must match current implementation exactly
-   4. **Language**: All documentation must be in Chinese (中文)
-   5. **Use code-analyzer results**: Leverage the analysis from code-analyzer agent
+For Backend:
+- API 参考文档 (API-REFERENCE-zh.md)
+  - 所有端点的详细说明
+  - 请求/响应格式和示例
+  - 认证要求和错误代码
+  
+For Frontend:
+- 组件文档
+  - 组件功能说明、Props、使用示例
+  
+For All Projects:
+- README-zh.md (项目概述、安装、快速开始、配置)
+- 关键函数的中文 JSDoc/Docstring 注释
+- 使用指南 (USAGE-zh.md)
 
-   **Documentation to Generate:**
+**Requirements:**
+- 使用清晰、专业的中文术语
+- 提供实际可运行的代码示例
+- 确保文档准确反映当前代码功能
+- 列出所有创建/修改的文件
 
-   ### For Backend Projects:
-   - API 参考文档 (API Reference)
-     - 所有端点的详细说明
-     - 请求/响应格式
-     - 认证要求
-     - 错误代码
-     - 示例代码
-   
-   - 使用指南 (Usage Guide)
-     - 快速开始
-     - 配置说明
-     - 环境变量
-   
-   - 代码注释 (Inline Comments)
-     - 为关键函数添加中文 JSDoc/Docstring
-     - 解释复杂逻辑
+从代码出发理解项目，不依赖现有文档。"
+```
 
-   ### For Frontend Projects:
-   - 组件文档 (Component Documentation)
-     - 组件功能说明
-     - Props 参数
-     - 使用示例
-   
-   - 使用指南 (Usage Guide)
-     - 项目结构说明
-     - 开发环境配置
-     - 构建和部署
-   
-   - 代码注释 (Inline Comments)
-     - 为关键组件添加中文注释
-     - 解释状态管理逻辑
+### Step 3: Verify
 
-   ### For Full-Stack Projects:
-   - 完整的 API 文档（中文）
-   - 前端组件文档（中文）
-   - 项目 README-zh.md
-   - 架构说明文档
+After documentation is generated:
+1. Check that all key areas are documented
+2. Verify examples are accurate
+3. Ensure documentation is in Chinese
 
-   **Output Requirements:**
-   1. Create/update README-zh.md with Chinese project overview
-   2. Create API-REFERENCE-zh.md (if applicable)
-   3. Add inline Chinese comments to key files
-   4. Create 使用指南 (USAGE-zh.md) if needed
-   5. List all files created/modified
+## Output
 
-   Remember: 
-   - 从代码出发理解项目，不要依赖现有文档
-   - 确保文档准确反映实际代码功能
-   - 使用清晰、专业的中文术语
-   ```
+The doc-writer will report:
+- Files created/modified
+- Documentation coverage
+- Sample of generated docs
 
-3. **Wait for Completion**: The agents will coordinate to analyze code and generate accurate Chinese documentation.
-
-## What Happens Next
-
-The workflow will:
-1. **Code Analyzer** studies the codebase structure
-2. **Doc Writer** reads code directly to understand functionality
-3. Generates comprehensive Chinese documentation
-4. Ignores existing (possibly outdated) docs
-5. Creates new documentation that matches actual code behavior
-6. Reports all files created/modified
-
-This ensures your Chinese documentation is accurate and up-to-date with the actual implementation.
+You should summarize the results for the user in Chinese.

@@ -10,13 +10,13 @@ Droids is a comprehensive Claude Code plugin that provides an intelligent coding
 ## 🌟 Features
 
 - **🔄 Closed-Loop Feedback Control**: Automatic iteration until requirements are met and quality is approved
-- **🤖 5 Specialized Agents**: Task orchestration, code analysis, testing, review, and documentation
+- **🤖 3 Specialized Agents**: Test engineer, code reviewer, and documentation writer
 - **🧪 Comprehensive Testing**: Frontend + backend testing with alignment verification
 - **🔒 Quality Assurance**: Automated code review with security, performance, and standards checks
 - **📝 Multi-Language Documentation**: Generate Chinese or English docs directly from code
-- **🎯 Smart Orchestration**: Main agent handles core implementation, subagents provide specialized support
+- **🎯 Lightweight Design**: Main agent directly coordinates workflow, reducing memory usage
 - **🌐 Multilingual Support**: Responds in user's language (Chinese/English)
-- **🔧 Flexible Tool Usage**: No restrictions on tools or MCP servers
+- **⚡ High Performance**: Optimized architecture prevents memory issues
 
 ## 📦 Installation
 
@@ -85,91 +85,75 @@ Use `/droids:start` to initiate the intelligent workflow:
 
 ## 🤖 The Droids Team
 
-### 1. Task Orchestrator 🎯
-**Role**: Core coordinator and workflow manager
+### Main Agent (You) 🎯
+**Role**: Core coordinator and implementer
 
 - Analyzes requirements and creates execution plans
-- Coordinates other agents and main agent
-- Implements closed-loop feedback control
+- Implements core functionality directly
+- Coordinates specialized agents for support
 - Validates quality and iterates until requirements met
 - Tracks progress with TodoWrite
 
-**When to use**: Complex coding tasks requiring coordination
+**Benefit**: Reduces agent nesting, lowers memory usage
 
-### 2. Code Analyzer 🔍
-**Role**: Codebase analysis and architecture expert
-
-- Analyzes project structure and design patterns
-- Identifies dependencies and integration points
-- Provides implementation recommendations
-- Assesses technical debt and complexity
-- Suggests refactoring opportunities
-
-**When to use**: Understanding existing code, planning implementations
-
-### 3. Test Engineer 🧪
+### 1. Test Engineer 🧪
 **Role**: Comprehensive testing specialist
 
 - Writes unit, integration, and E2E tests
 - Tests both frontend and backend
 - Verifies frontend-backend alignment
 - Runs tests and reports coverage
-- Identifies untested code paths
 
 **When to use**: Adding test coverage, verifying functionality
 
-### 4. Code Reviewer 👁️
+### 2. Code Reviewer 👁️
 **Role**: Quality assurance and security expert
 
 - Reviews code quality and maintainability
 - Identifies security vulnerabilities
 - Checks performance issues
 - Ensures coding standards compliance
-- Provides constructive feedback
 
 **When to use**: Pre-merge reviews, security audits, quality checks
 
-### 5. Doc Writer 📝
+### 3. Doc Writer 📝
 **Role**: Documentation generation specialist
 
 - Generates inline code comments (JSDoc, docstrings)
 - Creates API documentation
 - Writes README and usage guides
-- Produces architecture documentation
 - Supports Chinese and English
 
 **When to use**: Creating or updating documentation
 
-## 🔄 Workflow Architecture
+## 🔄 Workflow Architecture (Optimized)
 
 ```
 User Request
      ↓
-Main Agent (Core Implementation)
+Main Agent Directly Coordinates Workflow
      ↓
-Task Orchestrator (Coordination)
+[Step 1] Main Agent analyzes requirements
      ↓
-[FEEDBACK LOOP START]
+[Step 2] Main Agent implements core functionality
      ↓
-Code Analyzer → Analyze existing code
+[Step 3] Test Engineer → Write & run tests
      ↓
-Main Agent → Implement core functionality
-     ↓
-Test Engineer → Write & run tests (frontend + backend)
-     ↓
-Code Reviewer → Review quality & security
+[Step 4] Code Reviewer → Review quality
      ↓
 Verification → Tests pass? Quality approved?
      ↓
-[NO] → Analyze issues → Update plan → Retry
+[NO] → Main Agent fixes issues → Re-test/review
      ↓
-[YES] → Proceed to documentation
-     ↓
-Doc Writer → Generate documentation
-     ↓
-[FEEDBACK LOOP END]
+[YES] → [Step 5] Doc Writer → Generate docs (optional)
      ↓
 Task Complete
+
+Benefits:
+✅ Reduced agent nesting (no task-orchestrator needed)
+✅ Lower memory usage (3 agents instead of 5)
+✅ More direct workflow (main agent coordinates)
+✅ Maintains core functionality
 ```
 
 ## 💡 Example Workflows
@@ -180,14 +164,13 @@ Task Complete
 > /droids:start Add OAuth2 authentication with Google and GitHub
 
 # What happens:
-# 1. Task Orchestrator analyzes requirement
-# 2. Code Analyzer studies existing auth system
-# 3. Main Agent implements OAuth2 integration
-# 4. Test Engineer writes auth tests
-# 5. Code Reviewer checks security
-# 6. If issues found: iterate and fix
-# 7. Doc Writer generates auth documentation
-# 8. Complete with quality assurance
+# 1. Main Agent analyzes requirement and studies existing auth system
+# 2. Main Agent implements OAuth2 integration directly
+# 3. Test Engineer writes auth tests
+# 4. Code Reviewer checks security
+# 5. If issues found: Main Agent fixes and re-tests
+# 6. Doc Writer generates auth documentation (optional)
+# 7. Complete with quality assurance
 ```
 
 ### Example 2: Refactor with Testing
@@ -196,12 +179,12 @@ Task Complete
 > /droids:start Refactor database queries to use connection pooling
 
 # What happens:
-# 1. Code Analyzer identifies all database queries
+# 1. Main Agent identifies all database queries
 # 2. Main Agent refactors to use pooling
 # 3. Test Engineer writes/updates database tests
 # 4. Code Reviewer checks for performance improvements
-# 5. Iterates if tests fail
-# 6. Documents new database architecture
+# 5. Main Agent fixes if tests fail
+# 6. Doc Writer documents new database architecture
 ```
 
 ### Example 3: Generate Fresh Documentation
@@ -210,7 +193,7 @@ Task Complete
 > /droids:cndoc
 
 # What happens:
-# 1. Code Analyzer scans entire codebase
+# 1. Main Agent scans entire codebase
 # 2. Doc Writer reads code directly (ignores old docs)
 # 3. Generates accurate Chinese documentation
 # 4. Creates README-zh.md, API-REFERENCE-zh.md
@@ -313,9 +296,6 @@ Droids works out of the box with no configuration needed. However, you can custo
 You can also call agents directly for specific tasks:
 
 ```bash
-# Just analyze code
-> Use the code-analyzer agent to analyze the auth module
-
 # Just write tests
 > Use the test-engineer agent to add tests for the user service
 

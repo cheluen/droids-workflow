@@ -1,66 +1,130 @@
 ---
-description: Start Droids workflow for complex coding tasks with automated analysis-code-test-review loop
+description: Start intelligent coding workflow with automated testing and code review
 argument-hint: <your coding requirement>
 model: inherit
 ---
 
-# Droids Workflow Initiator
+# Droids Coding Workflow
 
-You are initiating the **Droids intelligent coding workflow system**.
+You are handling a coding task with intelligent workflow and quality assurance.
 
 ## User Requirement
 
 $ARGUMENTS
 
-## Your Task
+## Your Task - Direct Workflow Coordination
 
-Launch the **task-orchestrator** agent to handle this requirement using the Task tool.
+**You (the main agent) will directly coordinate this workflow. Do NOT launch task-orchestrator or code-analyzer agents.**
 
-### Step-by-Step Instructions
+### Workflow Steps
 
-1. **Call the Task tool** with the following parameters:
-   
-   - **subagent_type**: `"droids:task-orchestrator"`
-   
-   - **description**: `"Coordinate coding workflow for: $ARGUMENTS"`
-   
-   - **prompt**: 
-   ```
-   User requirement: $ARGUMENTS
+#### Phase 1: Analyze & Plan (You do this directly)
+1. Read CLAUDE.md for project standards
+2. Analyze the codebase structure relevant to the requirement
+3. Create a clear implementation plan
+4. Use TodoWrite to track your plan
 
-   Please analyze this requirement and coordinate the implementation using the Droids workflow system.
+#### Phase 2: Implement (You do this)
+1. Implement the core functionality
+2. Make necessary file changes
+3. Follow coding standards from CLAUDE.md
+4. Handle edge cases and errors
 
-   Your responsibilities:
-   1. Analyze the requirement and break it down into actionable tasks
-   2. Use the code-analyzer agent to understand existing codebase structure
-   3. Coordinate the main agent for core implementation (main agent handles the most important file editing)
-   4. Use the test-engineer agent for comprehensive testing (frontend + backend alignment)
-   5. Use the code-reviewer agent for quality assurance
-   6. Implement closed-loop feedback control:
-      - If tests fail or quality issues found: analyze → adjust plan → re-implement → re-test
-      - Continue iteration until all requirements met and quality approved
-   7. Use the doc-writer agent for documentation generation
-   8. Provide final completion report
+#### Phase 3: Test (Use test-engineer agent)
+After implementation, launch the test-engineer agent:
 
-   Follow the feedback loop workflow:
-   Analysis → Implementation → Testing → Review → Verification
-   → (if issues) Return to appropriate phase and iterate
-   → (if passed) Documentation → Complete
+```
+Task tool parameters:
+- subagent_type: "droids:test-engineer"
+- description: "Write and run comprehensive tests for: [feature name]"
+- prompt: "Write comprehensive tests for the implemented feature: $ARGUMENTS
 
-   Ensure frontend-backend alignment if the task involves full-stack development.
-   ```
+Include:
+- Backend tests (if applicable): unit tests, API tests
+- Frontend tests (if applicable): component tests, E2E tests
+- Contract tests: verify frontend-backend alignment
+- Run tests and report results with coverage
 
-2. **Language Note**: The task-orchestrator will automatically detect the user's language and respond accordingly. If the user wrote in Chinese, the orchestrator will respond in Chinese. If in English, it will respond in English.
+Follow project testing standards from CLAUDE.md."
+```
 
-3. **Wait for Completion**: The task-orchestrator will manage the entire workflow and report back when complete.
+#### Phase 4: Review (Use code-reviewer agent)
+After tests pass, launch the code-reviewer agent:
 
-## What Happens Next
+```
+Task tool parameters:
+- subagent_type: "droids:code-reviewer"
+- description: "Review code quality and security for: [feature name]"
+- prompt: "Review the implemented code for: $ARGUMENTS
 
-The task-orchestrator will:
-- Break down your requirement into phases
-- Coordinate specialized agents for analysis, testing, review, and documentation
-- Ensure quality through iterative feedback loops
-- Keep you updated on progress
-- Report completion when all requirements are satisfied
+Check:
+- Security vulnerabilities
+- Code quality and maintainability
+- Performance issues
+- Standards compliance with CLAUDE.md
 
-The main agent (yourself) will handle the core file editing and implementation, while subagents provide specialized support.
+Provide clear feedback with severity levels (Critical/Important/Suggestion)."
+```
+
+#### Phase 5: Iterate if Needed
+- If tests fail: Analyze failures, fix code, re-test
+- If review finds critical issues: Address them, re-test, re-review
+- Maximum 3 iterations per phase
+
+#### Phase 6: Document (Use doc-writer agent, optional)
+If documentation is needed:
+
+```
+Task tool parameters:
+- subagent_type: "droids:doc-writer"
+- description: "Generate documentation for: [feature name]"
+- prompt: "Generate documentation for the implemented feature: $ARGUMENTS
+
+Create:
+- Inline comments (JSDoc/docstring) for key functions
+- API documentation if new endpoints added
+- Update README if needed
+
+Read code directly to ensure accuracy. Use [Chinese/English] based on user's language."
+```
+
+#### Phase 7: Complete
+- Verify all requirements met
+- Confirm tests passing
+- Report completion to user
+
+## Language Handling
+
+**Detect user's language from their requirement:**
+- If Chinese (中文): Respond in Chinese
+- If English: Respond in English
+
+## Output Format
+
+Provide clear status updates in user's language:
+
+```
+## Current Phase
+[What you're doing now]
+
+## Progress
+- ✅ Completed
+- 🔄 In progress  
+- ⏳ Pending
+
+## Results
+[Summary of current phase]
+
+## Next Steps
+[What happens next]
+```
+
+## Key Points
+
+1. **You handle implementation directly** - Don't delegate core coding to agents
+2. **Agents provide specialized support** - Testing, review, documentation
+3. **Iterate when needed** - Fix issues until quality standards met
+4. **Follow CLAUDE.md** - Respect project-specific rules
+5. **Keep user informed** - Clear progress updates in their language
+
+Start by analyzing the requirement and creating an implementation plan!

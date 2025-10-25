@@ -1,143 +1,89 @@
 ---
-description: Generate comprehensive English documentation by analyzing code directly, ignoring existing comments and docs to ensure accuracy
+description: Generate comprehensive English documentation by analyzing code directly
 argument-hint: [optional: specific file or module to document]
 model: inherit
 ---
 
-# Generate English Documentation from Code
+# Generate English Documentation
 
-You are initiating the **English Documentation Generation** workflow.
+Generate comprehensive English documentation by analyzing code directly.
 
-## Target for Documentation
+## Target
 
 $ARGUMENTS
 
-If no specific target provided, document the entire project.
+If no target specified, document the entire project.
 
 ## Your Task
 
-Launch the **doc-writer** agent to generate comprehensive English documentation by analyzing code directly.
+**You will coordinate English documentation generation.**
 
-### Step-by-Step Instructions
+### Step 1: Analyze Project Structure (You do this)
 
-1. **First, launch the code-analyzer agent** to understand the project structure:
+1. Read the codebase to understand structure:
+   - Main features and functionality
+   - API endpoints (if backend)
+   - Key components (if frontend)
+   - Configuration requirements
 
-   **Call the Task tool** with:
-   - **subagent_type**: `"droids:code-analyzer"`
-   - **description**: `"Analyze codebase structure for English documentation generation"`
-   - **prompt**:
-   ```
-   Analyze the project structure and identify all components that need documentation.
+2. Identify what needs documentation
 
-   Focus on:
-   1. Main features and functionality
-   2. API endpoints (if backend)
-   3. Key components (if frontend)
-   4. Core utilities and services
-   5. Data models and schemas
-   6. Configuration requirements
+### Step 2: Generate Documentation (Use doc-writer agent)
 
-   Target: $ARGUMENTS (or entire project if not specified)
+Launch the doc-writer agent:
 
-   Provide a comprehensive analysis that will guide English documentation generation.
-   ```
+```
+Task tool parameters:
+- subagent_type: "droids:doc-writer"
+- description: "Generate English documentation for: [target or entire project]"
+- prompt: "Generate comprehensive English documentation.
 
-2. **Then, launch the doc-writer agent** for English documentation:
+Target: $ARGUMENTS (or entire project if not specified)
 
-   **Call the Task tool** with:
-   - **subagent_type**: `"droids:doc-writer"`
-   - **description**: `"Generate comprehensive English documentation from code analysis"`
-   - **prompt**:
-   ```
-   Generate comprehensive documentation in English based on direct code analysis.
+**CRITICAL Instructions:**
+1. Read code files directly to understand functionality
+2. DO NOT rely on existing comments or documentation (may be outdated)
+3. Generate fresh documentation based on actual code behavior
+4. All documentation must be in English
 
-   Target: $ARGUMENTS (or entire project if not specified)
+**Generate:**
 
-   **IMPORTANT Instructions:**
-   1. **Read code directly**: Analyze source code files to understand functionality
-   2. **Ignore existing documentation**: Do NOT rely on existing comments, docs, or README
-      - Existing docs may be outdated or incorrect
-      - Generate fresh documentation from actual code behavior
-   3. **Ensure accuracy**: Documentation must match current implementation exactly
-   4. **Language**: All documentation must be in English
-   5. **Use code-analyzer results**: Leverage the analysis from code-analyzer agent
+For Backend:
+- API Reference Documentation (API-REFERENCE.md)
+  - Detailed endpoint descriptions
+  - Request/response formats with examples
+  - Authentication requirements and error codes
+  
+For Frontend:
+- Component Documentation
+  - Component functionality, props, usage examples
+  
+For All Projects:
+- README.md (project overview, installation, quick start, configuration)
+- JSDoc/Docstring comments for key functions
+- Usage Guide (USAGE.md)
 
-   **Documentation to Generate:**
+**Requirements:**
+- Use clear, professional English
+- Provide realistic, working code examples
+- Ensure documentation accurately reflects current code
+- List all files created/modified
 
-   ### For Backend Projects:
-   - API Reference Documentation
-     - Detailed endpoint descriptions
-     - Request/response formats
-     - Authentication requirements
-     - Error codes and messages
-     - Code examples (cURL, JavaScript, Python)
-   
-   - Usage Guide
-     - Quick start guide
-     - Configuration instructions
-     - Environment variables
-     - Deployment guide
-   
-   - Inline Comments
-     - JSDoc/Docstring for key functions
-     - Complex logic explanations
+Generate from code, not from existing docs."
+```
 
-   ### For Frontend Projects:
-   - Component Documentation
-     - Component functionality
-     - Props and parameters
-     - Usage examples
-     - State management
-   
-   - Usage Guide
-     - Project structure explanation
-     - Development setup
-     - Build and deployment
-   
-   - Inline Comments
-     - Comments for key components
-     - State management logic explanations
+### Step 3: Verify
 
-   ### For Full-Stack Projects:
-   - Complete API documentation (English)
-   - Frontend component documentation (English)
-   - Project README.md
-   - Architecture documentation
-   - Integration guides
+After documentation is generated:
+1. Check that all key areas are documented
+2. Verify examples are accurate
+3. Ensure documentation is in English
 
-   **Output Requirements:**
-   1. Create/update README.md with English project overview
-   2. Create API-REFERENCE.md (if applicable)
-   3. Add inline English comments to key files
-   4. Create USAGE.md if needed
-   5. Create ARCHITECTURE.md for system design (if complex project)
-   6. List all files created/modified
+## Output
 
-   **Documentation Standards:**
-   - Use clear, professional English
-   - Follow industry-standard terminology
-   - Provide realistic, working examples
-   - Include troubleshooting sections
-   - Add quick start guides
-   - Document all configuration options
+The doc-writer will report:
+- Files created/modified
+- Documentation coverage
+- Sample of generated docs
 
-   Remember: 
-   - Generate documentation from code, not from existing docs
-   - Ensure documentation accurately reflects actual code functionality
-   - Use clear, concise English
-   - Follow technical writing best practices
-   ```
-
-3. **Wait for Completion**: The agents will coordinate to analyze code and generate accurate English documentation.
-
-## What Happens Next
-
-The workflow will:
-1. **Code Analyzer** studies the codebase structure
-2. **Doc Writer** reads code directly to understand functionality
-3. Generates comprehensive English documentation
-4. Ignores existing (possibly outdated) docs
-5. Creates new documentation that matches actual code behavior
-6. Reports all files created/modified
-
-This ensures your English documentation is accurate and up-to-date with the actual implementation.
+You should summarize the results for the user.
