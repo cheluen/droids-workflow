@@ -34,7 +34,7 @@ Launch the doc-writer agent:
 
 ```
 Task tool parameters:
-- subagent_type: "droids:doc-writer"
+- subagent_type: "doc-writer"
 - description: "Generate English documentation for: [target or entire project]"
 - prompt: "Generate comprehensive English documentation.
 

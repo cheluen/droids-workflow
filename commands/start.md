@@ -35,7 +35,7 @@ After implementation, launch the test-engineer agent:
 
 ```
 Task tool parameters:
-- subagent_type: "droids:test-engineer"
+- subagent_type: "test-engineer"
 - description: "Write and run comprehensive tests for: [feature name]"
 - prompt: "Write comprehensive tests for the implemented feature: $ARGUMENTS
 
@@ -53,7 +53,7 @@ After tests pass, launch the code-reviewer agent:
 
 ```
 Task tool parameters:
-- subagent_type: "droids:code-reviewer"
+- subagent_type: "code-reviewer"
 - description: "Review code quality and security for: [feature name]"
 - prompt: "Review the implemented code for: $ARGUMENTS
 
@@ -76,7 +76,7 @@ If documentation is needed:
 
 ```
 Task tool parameters:
-- subagent_type: "droids:doc-writer"
+- subagent_type: "doc-writer"
 - description: "Generate documentation for: [feature name]"
 - prompt: "Generate documentation for the implemented feature: $ARGUMENTS
 
