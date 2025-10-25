@@ -6,55 +6,48 @@ model: inherit
 
 # Generate English Documentation
 
-Generate comprehensive English documentation by analyzing code directly.
-
 ## Target
 
 $ARGUMENTS
 
 If no target specified, document the entire project.
 
-## Your Task
+## Process
 
-Generate English documentation following these steps:
+### Step 1: Analyze Codebase (You do this)
 
-### Step 1: Analyze Project Structure
+Understand the project structure:
+- Main features and functionality
+- API endpoints (if backend)
+- Key components (if frontend)
+- Configuration requirements
+- Project architecture
 
-1. Read the codebase to understand:
-   - Main features and functionality
-   - API endpoints (if backend)
-   - Key components (if frontend)
-   - Configuration requirements
-   - Project architecture
+### Step 2: Use doc-writer Agent (REQUIRED)
 
-2. Identify what needs documentation
+Use the **doc-writer** agent to generate comprehensive English documentation.
 
-### Step 2: Use doc-writer Agent
+Provide the agent with:
+- Target scope (entire project or specific module)
+- Language requirement: English
+- Clear instruction: Read code directly, ignore existing docs
 
-Use the **doc-writer** agent to generate comprehensive English documentation:
+The agent should generate:
 
-**Important Instructions for doc-writer:**
-- Read code files directly to understand functionality
-- DO NOT rely on existing comments or documentation (may be outdated)
-- Generate fresh documentation based on actual code behavior
-- All documentation must be in English
-
-**Generate:**
-
-For Backend Projects:
-- API Reference Documentation (API-REFERENCE.md)
+**For Backend Projects:**
+- API-REFERENCE.md (API Reference Documentation)
   - Detailed endpoint descriptions
   - Request/response formats with examples
   - Authentication requirements and error codes
 
-For Frontend Projects:
+**For Frontend Projects:**
 - Component Documentation
   - Component functionality, props, usage examples
 
-For All Projects:
+**For All Projects:**
 - README.md (project overview, installation, quick start, configuration)
 - JSDoc/Docstring comments for key functions
-- Usage Guide (USAGE.md) if needed
+- USAGE.md (Usage Guide) if needed
 
 **Requirements:**
 - Use clear, professional English
@@ -62,16 +55,11 @@ For All Projects:
 - Ensure documentation accurately reflects current code
 - List all files created/modified
 
-### Step 3: Verify
+### Step 3: Report to User (You do this)
 
-After documentation is generated:
-1. Check that all key areas are documented
-2. Verify examples are accurate
-3. Ensure documentation is in English
-
-## Output
-
-Provide a summary to the user about:
-- Files created/modified
+Summarize:
+- List of files created/modified
 - Documentation coverage
-- Sample of generated docs
+- Sample snippets of generated docs
+
+Make sure to use the doc-writer agent - do not generate documentation yourself!

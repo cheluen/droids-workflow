@@ -6,55 +6,48 @@ model: inherit
 
 # Generate Chinese Documentation
 
-Generate comprehensive Chinese (中文) documentation by analyzing code directly.
-
 ## Target
 
 $ARGUMENTS
 
 If no target specified, document the entire project.
 
-## Your Task
+## Process
 
-Generate Chinese documentation following these steps:
+### Step 1: Analyze Codebase (You do this)
 
-### Step 1: Analyze Project Structure
+Understand the project structure:
+- Main features and functionality
+- API endpoints (if backend)
+- Key components (if frontend)
+- Configuration requirements
+- Project architecture
 
-1. Read the codebase to understand:
-   - Main features and functionality
-   - API endpoints (if backend)
-   - Key components (if frontend)
-   - Configuration requirements
-   - Project architecture
+### Step 2: Use doc-writer Agent (REQUIRED)
 
-2. Identify what needs documentation
+Use the **doc-writer** agent to generate comprehensive Chinese (中文) documentation.
 
-### Step 2: Use doc-writer Agent
+Provide the agent with:
+- Target scope (entire project or specific module)
+- Language requirement: Chinese (中文)
+- Clear instruction: Read code directly, ignore existing docs
 
-Use the **doc-writer** agent to generate comprehensive Chinese documentation:
+The agent should generate:
 
-**Important Instructions for doc-writer:**
-- Read code files directly to understand functionality
-- DO NOT rely on existing comments or documentation (may be outdated)
-- Generate fresh documentation based on actual code behavior
-- All documentation must be in Chinese (中文)
-
-**Generate:**
-
-For Backend Projects:
-- API 参考文档 (API-REFERENCE-zh.md)
+**For Backend Projects:**
+- API-REFERENCE-zh.md (API 参考文档)
   - 所有端点的详细说明
   - 请求/响应格式和示例
   - 认证要求和错误代码
 
-For Frontend Projects:
+**For Frontend Projects:**
 - 组件文档
   - 组件功能说明、Props、使用示例
 
-For All Projects:
+**For All Projects:**
 - README-zh.md (项目概述、安装、快速开始、配置)
 - 关键函数的中文 JSDoc/Docstring 注释
-- 使用指南 (USAGE-zh.md) if needed
+- USAGE-zh.md (使用指南) if needed
 
 **Requirements:**
 - 使用清晰、专业的中文术语
@@ -62,16 +55,11 @@ For All Projects:
 - 确保文档准确反映当前代码功能
 - 列出所有创建/修改的文件
 
-### Step 3: Verify
+### Step 3: Report to User (You do this)
 
-After documentation is generated:
-1. Check that all key areas are documented
-2. Verify examples are accurate
-3. Ensure documentation is in Chinese
+Summarize in Chinese:
+- 已创建/修改的文件列表
+- 文档覆盖范围
+- 生成文档的示例片段
 
-## Output
-
-Provide a summary to the user in Chinese about:
-- Files created/modified
-- Documentation coverage
-- Sample of generated docs
+Make sure to use the doc-writer agent - do not generate documentation yourself!
