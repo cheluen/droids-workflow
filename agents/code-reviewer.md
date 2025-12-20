@@ -1,8 +1,10 @@
 ---
 name: code-reviewer
-description: Review code quality, identify security vulnerabilities, check performance issues, and ensure compliance with coding standards and best practices.
+description: Review code quality, identify security vulnerabilities, check performance issues, and ensure compliance with coding standards and best practices. Invoke this agent after code changes are complete and tests pass.
 model: inherit
 color: red
+tools: Read, Grep, Glob, LSP
+skills: droids-security-checklist, droids-code-quality
 ---
 
 **CRITICAL: Always respond in the SAME LANGUAGE the user used (Chinese/中文 or English).**

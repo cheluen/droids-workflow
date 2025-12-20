@@ -2,17 +2,31 @@
 description: Generate comprehensive Chinese documentation by analyzing code directly
 argument-hint: [optional: specific file or module to document]
 model: inherit
+allowed-tools: Read, Edit, Write, Grep, Glob, Task
 ---
 
 # Generate Chinese Documentation
 
-## Target
+## Target Scope
 
 $ARGUMENTS
 
 If no target specified, document the entire project.
 
-## Process
+---
+
+## CRITICAL: Preserve Original Request
+
+```
+ORIGINAL REQUEST (IMMUTABLE):
+$ARGUMENTS
+
+OUTPUT LANGUAGE: Chinese (Simplified)
+```
+
+---
+
+## Workflow
 
 ### Step 1: Analyze Codebase (You do this)
 
@@ -23,43 +37,80 @@ Understand the project structure:
 - Configuration requirements
 - Project architecture
 
-### Step 2: Use doc-writer Agent (REQUIRED)
+**Deliverables:**
+- [ ] Project structure understood
+- [ ] Key files identified
+- [ ] Documentation scope defined
 
-Use the **doc-writer** agent to generate comprehensive Chinese (中文) documentation.
+---
 
-Provide the agent with:
-- Target scope (entire project or specific module)
-- Language requirement: Chinese (中文)
-- Clear instruction: Read code directly, ignore existing docs
+### Step 2: Delegate to doc-writer Agent (REQUIRED)
 
-The agent should generate:
+**You MUST use the Task tool to invoke the doc-writer agent.**
+
+```
+Task(
+  subagent_type="doc-writer",
+  description="Generate Chinese technical documentation",
+  prompt="..."
+)
+```
+
+**Context to provide to agent:**
+- Original request: [quote from ORIGINAL REQUEST section]
+- Target scope: [entire project or specific module]
+- Language requirement: Chinese (Simplified)
+- Clear instruction: Read code directly, ignore existing potentially outdated docs
+
+**Expected agent deliverables:**
 
 **For Backend Projects:**
-- API-REFERENCE-zh.md (API 参考文档)
-  - 所有端点的详细说明
-  - 请求/响应格式和示例
-  - 认证要求和错误代码
+- API-REFERENCE-zh.md (API Reference Documentation)
+  - Detailed endpoint descriptions
+  - Request/response formats with examples
+  - Authentication requirements and error codes
 
 **For Frontend Projects:**
-- 组件文档
-  - 组件功能说明、Props、使用示例
+- Component Documentation
+  - Component functionality, props, usage examples
 
 **For All Projects:**
-- README-zh.md (项目概述、安装、快速开始、配置)
-- 关键函数的中文 JSDoc/Docstring 注释
-- USAGE-zh.md (使用指南) if needed
+- README-zh.md (project overview, installation, quick start, configuration)
+- Chinese JSDoc/Docstring comments for key functions
+- USAGE-zh.md (Usage Guide) if needed
 
-**Requirements:**
-- 使用清晰、专业的中文术语
-- 提供实际可运行的代码示例
-- 确保文档准确反映当前代码功能
-- 列出所有创建/修改的文件
+**Requirements for agent:**
+- Use clear, professional Chinese terminology
+- Provide realistic, working code examples
+- Ensure documentation accurately reflects current code
+- List all files created/modified
+
+**Wait for agent completion before proceeding.**
+
+---
 
 ### Step 3: Report to User (You do this)
 
 Summarize in Chinese:
-- 已创建/修改的文件列表
-- 文档覆盖范围
-- 生成文档的示例片段
 
-Make sure to use the doc-writer agent - do not generate documentation yourself!
+```
+## Documentation Complete
+
+### Files Created/Modified
+- [file list]
+
+### Documentation Coverage
+- Functions documented: X/Y
+- API endpoints documented: X/Y
+- User guides created: Yes/No
+
+### Sample Snippet
+[Show example of generated docs]
+
+### Notes
+[Any additional information]
+```
+
+---
+
+**Make sure to use the doc-writer agent - do not generate documentation yourself!**

@@ -1,13 +1,14 @@
 {
   "name": "droids",
-  "version": "1.0.0",
-  "description": "Intelligent coding workflow system with automated analysis-code-test-review loop. Coordinates specialized AI agents to handle complex coding tasks with quality assurance.",
+  "version": "1.2.0",
+  "description": "Factory.ai-style multi-agent workflow system with automated analysis-code-test-review loop. Coordinates specialized AI agents (test-engineer, code-reviewer, supervisor, doc-writer) with infinite iteration until perfect completion and context drift prevention.",
   "author": {
     "name": "cheluen"
   },
   "repository": "https://github.com/cheluen/droids-workflow",
   "license": "MIT",
-  "keywords": ["workflow", "testing", "code-review", "documentation", "automation"],
+  "keywords": ["workflow", "testing", "code-review", "documentation", "automation", "multi-agent", "orchestration", "supervisor"],
   "commands": "./commands/",
-  "agents": "./agents/"
+  "agents": "./agents/",
+  "skills": "./skills/"
 }

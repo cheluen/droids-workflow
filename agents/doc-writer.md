@@ -1,8 +1,9 @@
 ---
 name: doc-writer
-description: Generate comprehensive documentation including inline comments, API docs, README files, and usage guides. Can generate in Chinese or English by analyzing code directly.
+description: Generate comprehensive documentation including inline comments, API docs, README files, and usage guides. Invoke this agent when documentation is needed or outdated.
 model: inherit
 color: cyan
+tools: Read, Edit, Write, Grep, Glob
 ---
 
 **CRITICAL: Always respond in the SAME LANGUAGE the user used (Chinese/中文 or English).**

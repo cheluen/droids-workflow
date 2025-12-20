@@ -2,17 +2,31 @@
 description: Generate comprehensive English documentation by analyzing code directly
 argument-hint: [optional: specific file or module to document]
 model: inherit
+allowed-tools: Read, Edit, Write, Grep, Glob, Task
 ---
 
 # Generate English Documentation
 
-## Target
+## Target Scope
 
 $ARGUMENTS
 
 If no target specified, document the entire project.
 
-## Process
+---
+
+## CRITICAL: Preserve Original Request
+
+```
+ORIGINAL REQUEST (IMMUTABLE):
+$ARGUMENTS
+
+OUTPUT LANGUAGE: English
+```
+
+---
+
+## Workflow
 
 ### Step 1: Analyze Codebase (You do this)
 
@@ -23,16 +37,32 @@ Understand the project structure:
 - Configuration requirements
 - Project architecture
 
-### Step 2: Use doc-writer Agent (REQUIRED)
+**Deliverables:**
+- [ ] Project structure understood
+- [ ] Key files identified
+- [ ] Documentation scope defined
 
-Use the **doc-writer** agent to generate comprehensive English documentation.
+---
 
-Provide the agent with:
-- Target scope (entire project or specific module)
+### Step 2: Delegate to doc-writer Agent (REQUIRED)
+
+**You MUST use the Task tool to invoke the doc-writer agent.**
+
+```
+Task(
+  subagent_type="doc-writer",
+  description="Generate English technical documentation",
+  prompt="..."
+)
+```
+
+**Context to provide to agent:**
+- Original request: [quote from ORIGINAL REQUEST section]
+- Target scope: [entire project or specific module]
 - Language requirement: English
-- Clear instruction: Read code directly, ignore existing docs
+- Clear instruction: Read code directly, ignore existing potentially outdated docs
 
-The agent should generate:
+**Expected agent deliverables:**
 
 **For Backend Projects:**
 - API-REFERENCE.md (API Reference Documentation)
@@ -49,17 +79,38 @@ The agent should generate:
 - JSDoc/Docstring comments for key functions
 - USAGE.md (Usage Guide) if needed
 
-**Requirements:**
+**Requirements for agent:**
 - Use clear, professional English
 - Provide realistic, working code examples
 - Ensure documentation accurately reflects current code
 - List all files created/modified
 
+**Wait for agent completion before proceeding.**
+
+---
+
 ### Step 3: Report to User (You do this)
 
-Summarize:
-- List of files created/modified
-- Documentation coverage
-- Sample snippets of generated docs
+Summarize in English:
 
-Make sure to use the doc-writer agent - do not generate documentation yourself!
+```
+## Documentation Complete
+
+### Files Created/Modified
+- [file list]
+
+### Documentation Coverage
+- Functions documented: X/Y
+- API endpoints documented: X/Y
+- User guides created: Yes/No
+
+### Sample Snippet
+[Show example of generated docs]
+
+### Notes
+[Any additional information]
+```
+
+---
+
+**Make sure to use the doc-writer agent - do not generate documentation yourself!**
