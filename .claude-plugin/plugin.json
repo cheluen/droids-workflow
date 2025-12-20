@@ -6,5 +6,8 @@
     "name": "cheluen"
   },
   "repository": "https://github.com/cheluen/droids-workflow",
-  "license": "MIT"
+  "license": "MIT",
+  "keywords": ["workflow", "testing", "code-review", "documentation", "automation"],
+  "commands": "./commands/",
+  "agents": "./agents/"
 }
