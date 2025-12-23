@@ -8,7 +8,7 @@
   "repository": "https://github.com/cheluen/droids-workflow",
   "license": "MIT",
   "keywords": ["workflow", "testing", "code-review", "documentation", "automation", "multi-agent", "orchestration", "supervisor"],
-  "commands": "./commands/",
-  "agents": "./agents/",
-  "skills": "./skills/"
+  "commands": ["./commands/cndoc.md","./commands/endoc.md","./commands/start.md"],
+  "agents": ["./agents/code-reviewer.md","./agents/doc-writer.md","./agents/supervisor.md","./agents/test-engineer.md"],
+  "skills": ["./skills/droids-code-quality/SKILL.md","./skills/droids-security-checklist/SKILL.md","./skills/droids-test-patterns/SKILL.md","./skills/droids-workflow-orchestration/SKILL.md"]
 }
