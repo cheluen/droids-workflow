@@ -1,7 +1,6 @@
 ---
 name: droids-workflow-orchestration
-description: Multi-agent workflow orchestration patterns for coordinating test-engineer, code-reviewer, supervisor, and doc-writer agents. Use when managing complex coding tasks that require multiple specialized agents.
-allowed-tools: Read, Edit, Write, Bash, Grep, Glob, Task
+description: "[DROIDS-INTERNAL] Multi-agent workflow orchestration patterns. Only activate when invoked by /droids:start command. Do NOT auto-activate in regular conversations."
 ---
 
 # Droids Workflow Orchestration

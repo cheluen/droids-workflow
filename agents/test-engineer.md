@@ -1,10 +1,9 @@
 ---
 name: test-engineer
 description: Write comprehensive tests for frontend and backend code, including unit tests, integration tests, and E2E tests. Invoke this agent after implementing new features or fixing bugs.
-model: inherit
+model: sonnet
 color: green
-tools: Read, Edit, Write, Bash, Grep, Glob
-skills: droids-test-patterns
+tools: ["Read", "Edit", "Write", "Bash", "Grep", "Glob"]
 ---
 
 **CRITICAL: Always respond in the SAME LANGUAGE the user used (Chinese/中文 or English).**

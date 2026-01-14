@@ -2,7 +2,7 @@
 description: Generate comprehensive Chinese documentation by analyzing code directly
 argument-hint: [optional: specific file or module to document]
 model: inherit
-allowed-tools: Read, Edit, Write, Grep, Glob, Task
+allowed-tools: ["Read", "Edit", "Write", "Grep", "Glob", "Task"]
 ---
 
 # Generate Chinese Documentation

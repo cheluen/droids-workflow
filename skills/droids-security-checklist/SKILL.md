@@ -1,6 +1,6 @@
 ---
 name: droids-security-checklist
-description: Security review checklist for code analysis. Use when reviewing code for security vulnerabilities, authentication issues, input validation, or OWASP top 10 concerns.
+description: "[DROIDS-INTERNAL] Security review checklist for code analysis. Only activate when invoked by droids plugin agents (code-reviewer) or /droids:* commands. Do NOT auto-activate in regular conversations."
 ---
 
 # Security Review Checklist

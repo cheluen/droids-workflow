@@ -2,7 +2,7 @@
 description: Start intelligent coding workflow with automated multi-agent collaboration
 argument-hint: <your coding requirement>
 model: inherit
-allowed-tools: Read, Edit, Write, Bash, Grep, Glob, Task, TodoWrite
+allowed-tools: ["Read", "Edit", "Write", "Bash", "Grep", "Glob", "Task", "TodoWrite"]
 ---
 
 # Droids Intelligent Coding Workflow
@@ -10,17 +10,6 @@ allowed-tools: Read, Edit, Write, Bash, Grep, Glob, Task, TodoWrite
 ## User Requirement
 
 $ARGUMENTS
-
----
-
-## CRITICAL: Multi-Agent Orchestration Protocol
-
-You are the **Workflow Orchestrator**. You MUST coordinate specialized agents to complete this task with quality assurance. This is a Factory.ai-style multi-agent workflow.
-
-**IMPORTANT**:
-- You MUST use the Task tool to delegate work to specialized agents. Do NOT skip agent invocations.
-- **NO ITERATION LIMIT**: Continue iterating until the task is PERFECTLY completed and passes ALL quality checks.
-- **PREVENT CONTEXT DRIFT**: Use the supervisor agent periodically to ensure alignment with original requirement.
 
 ---
 
@@ -37,6 +26,24 @@ $ARGUMENTS
 
 ---
 
+## Pre-flight: Global Context Inheritance
+
+Before starting the workflow:
+
+1. **Read global configuration**: `~/.claude/CLAUDE.md` (if exists)
+2. **Understand and extract rules semantically** - use your judgment to determine which rules are relevant to each subagent based on their role
+3. **For each subagent invocation**: Include only the relevant global rules in the Task prompt
+   - Backend rules → backend-engineer
+   - Frontend rules → frontend-engineer
+   - Testing rules → test-engineer
+   - Review/security rules → code-reviewer
+   - Documentation rules → doc-writer
+   - Universal rules → all agents
+
+This ensures subagents operate under the same constraints as the main session without context pollution.
+
+---
+
 ## Success Criteria (ALL must be met)
 
 Before completing the workflow, ALL of the following MUST be true:
@@ -47,7 +54,6 @@ Before completing the workflow, ALL of the following MUST be true:
 - [ ] No security vulnerabilities
 - [ ] No bugs or regressions
 - [ ] Code follows project standards (CLAUDE.md)
-- [ ] Supervisor: APPROVED (no context drift or regression)
 
 **If ANY criterion is not met, continue iterating. DO NOT STOP.**
 
@@ -55,205 +61,271 @@ Before completing the workflow, ALL of the following MUST be true:
 
 ## Available Agents
 
-| Agent | Role | Tools | Invoke When |
+| Agent | Role | Model | Invoke When |
 |-------|------|-------|-------------|
-| **test-engineer** | Write and run tests | Read, Edit, Write, Bash, Grep, Glob | After implementation |
-| **code-reviewer** | Review quality and security | Read, Grep, Glob, LSP | After tests pass |
-| **supervisor** | Prevent drift and regression | Read, Grep, Glob | Every 3 iterations OR when issues increase |
-| **doc-writer** | Generate documentation | Read, Edit, Write, Grep, Glob | When docs needed (optional) |
+| **backend-engineer** | Backend development | inherit | Backend implementation needed |
+| **frontend-engineer** | Frontend development | sonnet | Frontend implementation needed |
+| **code-reviewer** | Code quality review | inherit | After coding phase |
+| **test-engineer** | Write and run tests | sonnet (default) / haiku (fast) | After review phase |
+| **doc-writer** | Generate documentation | haiku | When docs needed (anytime) |
+
+---
+
+## Self-Healing CI/CD Workflow
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    ITERATION LOOP                                │
+│              (Continue until ALL criteria met)                   │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  CODING → REVIEW → TEST → SUPERVISE → (loop or complete)        │
+│                                                                  │
+│  1. Coding Phase (sequential, NOT parallel)                      │
+│     └─ backend-engineer → wait → frontend-engineer → wait       │
+│                                                                  │
+│  2. Review Phase                                                 │
+│     └─ code-reviewer → wait for APPROVED/NEEDS CHANGES          │
+│                                                                  │
+│  3. Testing Phase                                                │
+│     └─ test-engineer → wait for results                         │
+│                                                                  │
+│  4. Supervision Phase (Main Agent)                               │
+│     └─ Evaluate results → decide CONTINUE or COMPLETE           │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
 ## Workflow Steps
 
-### Step 1: Analyze and Plan (You do this)
+### Step 1: Analyze and Plan
 
 1. Read CLAUDE.md if it exists to understand project standards
-2. Analyze the codebase structure relevant to the requirement
-3. Create a clear implementation plan using TodoWrite
-4. Identify which files need to be created or modified
+2. Read ~/.claude/CLAUDE.md to extract global rules for subagents
+3. Analyze the codebase structure relevant to the requirement
+4. Determine if task involves: backend only / frontend only / fullstack
+5. Create a clear implementation plan using TodoWrite
+6. Identify which files need to be created or modified
 
 **Deliverables:**
 - [ ] Implementation plan documented
+- [ ] Scope determined (backend/frontend/fullstack)
 - [ ] Files to modify identified
-- [ ] Dependencies understood
 
 ---
 
-### Step 2: Implement Core Functionality (You do this)
+### Step 2: Coding Phase (SEQUENTIAL - NO PARALLEL CALLS)
 
-1. Implement the required functionality directly
-2. Make necessary file changes
-3. Follow coding standards from CLAUDE.md
-4. Handle edge cases and errors properly
+**CRITICAL: Backend must complete before frontend starts. NEVER call them in parallel.**
 
-**Deliverables:**
-- [ ] Core functionality implemented
-- [ ] Code follows project conventions
-- [ ] No obvious errors
-
----
-
-### Step 3: Delegate to test-engineer Agent (REQUIRED)
-
-**You MUST use the Task tool to invoke the test-engineer agent.**
+#### 2a. Backend Implementation (if needed)
 
 ```
 Task(
-  subagent_type="test-engineer",
-  description="Write and run comprehensive tests",
-  prompt="..."
+  subagent_type="backend-engineer",
+  description="Implement backend functionality",
+  prompt="""
+  **Global Rules (extracted from ~/.claude/CLAUDE.md):**
+  [Insert relevant backend rules here]
+
+  **Original Requirement:**
+  [Quote from ORIGINAL REQUIREMENT section]
+
+  **Task Context:**
+  - Files to modify: [list]
+  - Dependencies: [list]
+
+  **Requirements:**
+  - Implement the backend functionality as specified
+  - Follow project standards from CLAUDE.md
+  - Report all files created/modified
+
+  **Wait for completion before proceeding.**
+  """
 )
 ```
 
-**Context to provide in prompt:**
-- Original requirement: [quote from ORIGINAL REQUIREMENT section]
-- Files modified: [list the files you changed]
-- Feature implemented: [describe what was implemented]
-- Test scope: unit tests, integration tests, API tests as applicable
+**WAIT for backend-engineer to complete before calling frontend-engineer.**
 
-**Expected deliverables from agent:**
-- Test suite written and executed
-- All tests passing
-- Coverage report provided
+#### 2b. Frontend Implementation (if needed)
 
-**WAIT for agent completion before proceeding to Step 4.**
+**Only proceed after backend-engineer completes.**
 
-**If tests fail:**
-1. Analyze failure reason from agent response
-2. Fix the implementation (reference ORIGINAL REQUIREMENT)
-3. Re-invoke test-engineer agent
-4. **REPEAT UNTIL ALL TESTS PASS - NO LIMIT**
+```
+Task(
+  subagent_type="frontend-engineer",
+  description="Implement frontend functionality",
+  prompt="""
+  **Global Rules (extracted from ~/.claude/CLAUDE.md):**
+  [Insert relevant frontend rules here]
+
+  **Original Requirement:**
+  [Quote from ORIGINAL REQUIREMENT section]
+
+  **Backend Context:**
+  - API endpoints created: [from backend output]
+  - Data structures: [from backend output]
+
+  **Task Context:**
+  - Files to modify: [list]
+  - Components needed: [list]
+
+  **Requirements:**
+  - Implement frontend components as specified
+  - Integrate with backend APIs
+  - Follow project standards from CLAUDE.md
+  - Report all files created/modified
+
+  **Wait for completion before proceeding.**
+  """
+)
+```
 
 ---
 
-### Step 4: Delegate to code-reviewer Agent (REQUIRED)
+### Step 3: Review Phase
 
-**Only proceed after test-engineer completes successfully (ALL tests pass).**
-
-**You MUST use the Task tool to invoke the code-reviewer agent.**
+**Only proceed after coding phase completes.**
 
 ```
 Task(
   subagent_type="code-reviewer",
   description="Review code quality and security",
-  prompt="..."
+  prompt="""
+  **Global Rules (extracted from ~/.claude/CLAUDE.md):**
+  [Insert relevant review/security rules here]
+
+  **Original Requirement:**
+  [Quote from ORIGINAL REQUIREMENT section]
+
+  **Files Modified:**
+  [Complete list of files changed in coding phase]
+
+  **Requirements:**
+  - Security review (OWASP top 10)
+  - Code quality assessment
+  - Performance analysis
+  - CLAUDE.md compliance check
+  - Provide: APPROVED or NEEDS CHANGES with specific issues
+
+  **Wait for completion before proceeding.**
+  """
 )
 ```
 
-**Context to provide in prompt:**
-- Original requirement: [quote from ORIGINAL REQUIREMENT section]
-- Files modified: [list the files]
-- Feature description: [what was implemented]
-- Test results: [summary from Step 3]
-- Standards: CLAUDE.md requirements
-
-**Expected deliverables from agent:**
-- Security assessment (OWASP top 10)
-- Code quality report
-- Performance analysis
-- Compliance check with project standards
-- Approval status: APPROVED / NEEDS CHANGES
-
-**If NEEDS CHANGES (any critical or important issues):**
-1. Fix ALL issues identified (not just some)
-2. Re-invoke test-engineer (to ensure fixes don't break tests)
-3. Re-invoke code-reviewer
-4. **REPEAT UNTIL FULLY APPROVED - NO LIMIT**
+**If NEEDS CHANGES:** Go back to Step 2, fix issues, then re-review.
 
 ---
 
-### Step 5: Delegate to supervisor Agent (REQUIRED PERIODICALLY)
+### Step 4: Testing Phase
 
-**You MUST invoke supervisor in these situations:**
-- After every 3 fix-test-review cycles
-- When test pass rate decreases compared to previous iteration
-- When code-reviewer finds more issues than previous iteration
-- Before final workflow completion
-- When you feel uncertain about the direction
+**Only proceed after review phase completes with APPROVED or after fixing review issues.**
 
 ```
 Task(
-  subagent_type="supervisor",
-  description="Check requirement alignment and detect regression",
-  prompt="..."
+  subagent_type="test-engineer",
+  description="Write and run comprehensive tests",
+  prompt="""
+  **Global Rules (extracted from ~/.claude/CLAUDE.md):**
+  [Insert relevant testing rules here]
+
+  **Original Requirement:**
+  [Quote from ORIGINAL REQUIREMENT section]
+
+  **What to Test:**
+  - Feature implemented: [description]
+  - Files modified: [list]
+  - API endpoints: [list if applicable]
+  - Components: [list if applicable]
+
+  **Test Scope:**
+  - Unit tests for new functions
+  - Integration tests for API endpoints
+  - Component tests for UI elements
+  - E2E tests for critical user flows
+
+  **Requirements:**
+  - Write comprehensive tests
+  - Run all tests
+  - Report results with pass/fail counts
+  - Report coverage percentage
+
+  **Wait for completion before proceeding.**
+  """
 )
 ```
 
-**Context to provide in prompt:**
-- Original requirement: [EXACT quote from ORIGINAL REQUIREMENT section]
-- Current iteration number: [N]
-- Iteration history: [test results and issues per iteration]
-- Files modified so far: [complete list]
-- Current status: [summary]
-
-**Expected deliverables from agent:**
-- Requirement alignment status
-- Regression analysis
-- Context integrity check
-- Progress assessment
-- Recommendation: CONTINUE / PAUSE / RESET
-- Guardrails for next iteration
-
-**If supervisor recommends PAUSE:**
-- Stop and ask user for clarification
-- Do NOT continue guessing
-
-**If supervisor recommends RESET:**
-- Revert problematic changes
-- Start fresh with a simpler approach
-- Reference the ORIGINAL REQUIREMENT
+**For fast mode:** If user mentions "quick", "fast", "快速", add `model="haiku"` to the Task call.
 
 ---
 
-### Step 6: Delegate to doc-writer Agent (Optional)
+### Step 5: Supervision Phase (Main Agent)
+
+**You (main agent) perform this step directly. Do NOT delegate to a subagent.**
+
+Evaluate the test results:
+
+1. **Check test results:**
+   - Did all tests pass?
+   - Is coverage acceptable?
+
+2. **Check requirement alignment:**
+   - Re-read the ORIGINAL REQUIREMENT section
+   - Does the implementation fully satisfy the requirement?
+   - Any scope creep or missing features?
+
+3. **Check for regression:**
+   - Did we break any existing functionality?
+   - Are there any new issues introduced?
+
+4. **Decision:**
+   - **All criteria met** → Proceed to Step 6 (completion)
+   - **Tests failed** → Go back to Step 2, fix issues
+   - **Review issues** → Go back to Step 2, fix issues
+   - **Stuck after 5+ iterations** → PAUSE and ask user for clarification
+
+---
+
+### Step 6: Documentation (Optional)
 
 If documentation is needed or user requests it:
-
-**Use the Task tool to invoke the doc-writer agent.**
 
 ```
 Task(
   subagent_type="doc-writer",
   description="Generate documentation",
-  prompt="..."
+  prompt="""
+  **Global Rules (extracted from ~/.claude/CLAUDE.md):**
+  [Insert relevant documentation rules here]
+
+  **Feature Implemented:**
+  [Description of what was built]
+
+  **Files to Document:**
+  [List of files]
+
+  **Language:**
+  [Same language as user's request - Chinese or English]
+
+  **Requirements:**
+  - Generate appropriate documentation
+  - Add inline comments where needed
+  - Update README if applicable
+  """
 )
 ```
 
-**Context to provide:**
-- Feature implemented
-- API endpoints added (if any)
-- Language preference: same as user's language
+**Note:** doc-writer can be called at any point during the workflow when documentation is needed.
 
 ---
 
-### Step 7: Final Verification
+### Step 7: Report Completion
 
-Before reporting completion:
+**ONLY report completion when ALL success criteria are met.**
 
-1. **Re-read the ORIGINAL REQUIREMENT section**
-2. **Invoke supervisor for final check**
-3. Verify ALL success criteria
-
-```
-[ ] User requirement fully implemented? (check against ORIGINAL REQUIREMENT)
-[ ] ALL tests passing?
-[ ] Code review APPROVED?
-[ ] No security issues?
-[ ] No bugs?
-[ ] Follows project standards?
-[ ] Supervisor APPROVED?
-```
-
-**If ANY checkbox is NOT checked, go back to the appropriate step. DO NOT PROCEED TO COMPLETION.**
-
----
-
-### Step 8: Report Completion
-
-**ONLY report completion when ALL success criteria are met AND supervisor approves.**
-
-Provide a comprehensive summary to the user:
+Provide a comprehensive summary:
 
 ```
 ## Workflow Complete
@@ -263,13 +335,13 @@ Provide a comprehensive summary to the user:
 
 ### Implementation Summary
 - Feature: [what was implemented]
-- Files modified: [list]
+- Backend: [files modified]
+- Frontend: [files modified]
 
 ### Quality Assurance
 - Total iterations: [number of fix cycles]
 - Final test results: ALL PASSED
 - Final review status: APPROVED
-- Supervisor status: APPROVED
 
 ### Test Results
 - Tests: [X/Y passed] (100%)
@@ -280,10 +352,6 @@ Provide a comprehensive summary to the user:
 - Quality: Meets standards
 - Performance: No issues
 
-### Documentation
-- Status: [Created/Updated/Not needed]
-- Files: [list if applicable]
-
 ### Verification Checklist
 [x] User requirement fully implemented
 [x] All tests passing
@@ -291,65 +359,20 @@ Provide a comprehensive summary to the user:
 [x] No security vulnerabilities
 [x] No bugs
 [x] Follows project standards
-[x] Supervisor approved
 ```
 
 ---
 
-## Iteration Protocol (NO LIMIT)
+## Critical Rules
 
-```
-+-------------------------------------------------------------------+
-|                    INFINITE ITERATION LOOP                         |
-|               (Continue until PERFECT completion)                  |
-+-------------------------------------------------------------------+
-|                                                                    |
-|   Implement --> test-engineer --> Tests pass?                      |
-|       ^                               |                            |
-|       |                    +----------+----------+                 |
-|       |                   Yes                    No                |
-|       |                    |                     |                 |
-|       |                    v                     +---> Fix --------+
-|       |              code-reviewer                                 |
-|       |                    |                                       |
-|       |               Approved?                                    |
-|       |            +-------+-------+                               |
-|       |           Yes              No                              |
-|       |            |               |                               |
-|       |            v               +---> Fix --> test-engineer ----+
-|       |     (Every 3 iterations)                                   |
-|       |            |                                               |
-|       |            v                                               |
-|       |       supervisor --> CONTINUE?                             |
-|       |            |               |                               |
-|       |    +-------+-------+       |                               |
-|       |   Yes    PAUSE   RESET     |                               |
-|       |    |       |       |       |                               |
-|       |    v       v       +-------+                               |
-|       | ALL MET?  Ask                                              |
-|       |    |      User                                             |
-|       +----+ No                                                    |
-|            |                                                       |
-|           Yes                                                      |
-|            |                                                       |
-|            v                                                       |
-|        COMPLETE                                                    |
-|                                                                    |
-|   WARNING: NO ITERATION LIMIT - CONTINUE UNTIL PERFECT             |
-|   SAFEGUARD: supervisor PREVENTS CONTEXT DRIFT AND REGRESSION      |
-|                                                                    |
-+-------------------------------------------------------------------+
-```
-
----
-
-## Context Preservation Rules
-
-1. **ALWAYS quote the original requirement** when invoking any agent
-2. **NEVER paraphrase or summarize** the user's requirement
-3. **Track iteration history** - tests passed, issues found per iteration
-4. **Monitor trends** - if issues increase, invoke supervisor immediately
-5. **When in doubt, re-read** the ORIGINAL REQUIREMENT section
+1. **NEVER call backend-engineer and frontend-engineer in parallel** - backend must complete first
+2. **NEVER skip agents** - always use code-reviewer and test-engineer
+3. **NEVER accept partial success** - all criteria must be met
+4. **NEVER stop on failure** - fix and retry
+5. **NEVER lose context** - always reference ORIGINAL REQUIREMENT
+6. **ALWAYS pass relevant global rules** to each subagent
+7. **ALWAYS pass task context** to test-engineer (what to test)
+8. **ALWAYS verify** - check all criteria before completing
 
 ---
 
@@ -357,22 +380,10 @@ Provide a comprehensive summary to the user:
 
 - Detect user's language from $ARGUMENTS
 - Respond in the same language throughout
-- Pass language preference to all agents
-
----
-
-## Critical Rules
-
-1. **NEVER give up** - Keep iterating until success
-2. **NEVER skip agents** - Always use test-engineer, code-reviewer, and supervisor
-3. **NEVER accept partial success** - All criteria must be met
-4. **NEVER stop on failure** - Fix and retry
-5. **NEVER lose context** - Always reference ORIGINAL REQUIREMENT
-6. **ALWAYS verify** - Check all criteria before completing
-7. **ALWAYS use supervisor** - Prevent drift and regression
+- Pass language preference to doc-writer
 
 ---
 
 **BEGIN WORKFLOW NOW. Start with Step 1: Analyze and Plan.**
 
-**Remember: DO NOT STOP until ALL success criteria are met. There is NO iteration limit. Use supervisor to prevent context drift.**
+**Remember: This is a self-healing CI/CD loop. Continue iterating until ALL success criteria are met.**

@@ -1,6 +1,6 @@
 ---
 name: droids-code-quality
-description: Code quality standards and review guidelines. Use when reviewing code for maintainability, readability, performance, and adherence to best practices.
+description: "[DROIDS-INTERNAL] Code quality standards and review guidelines. Only activate when invoked by droids plugin agents (code-reviewer) or /droids:* commands. Do NOT auto-activate in regular conversations."
 ---
 
 # Code Quality Standards

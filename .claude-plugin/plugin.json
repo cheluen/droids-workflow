@@ -1,14 +1,14 @@
 {
   "name": "droids",
-  "version": "1.2.0",
-  "description": "Factory.ai-style multi-agent workflow system with automated analysis-code-test-review loop. Coordinates specialized AI agents (test-engineer, code-reviewer, supervisor, doc-writer) with infinite iteration until perfect completion and context drift prevention.",
+  "version": "2.0.0",
+  "description": "Factory.ai-style multi-agent workflow system with self-healing CI/CD loop. Coordinates specialized AI agents (backend-engineer, frontend-engineer, code-reviewer, test-engineer, doc-writer) with infinite iteration until perfect completion.",
   "author": {
     "name": "cheluen"
   },
   "repository": "https://github.com/cheluen/droids-workflow",
   "license": "MIT",
-  "keywords": ["workflow", "testing", "code-review", "documentation", "automation", "multi-agent", "orchestration", "supervisor"],
-  "commands": ["./commands/cndoc.md","./commands/endoc.md","./commands/start.md"],
-  "agents": ["./agents/code-reviewer.md","./agents/doc-writer.md","./agents/supervisor.md","./agents/test-engineer.md"],
-  "skills": ["./skills/droids-code-quality/SKILL.md","./skills/droids-security-checklist/SKILL.md","./skills/droids-test-patterns/SKILL.md","./skills/droids-workflow-orchestration/SKILL.md"]
+  "keywords": ["workflow", "testing", "code-review", "documentation", "automation", "multi-agent", "orchestration", "ci-cd", "self-healing"],
+  "commands": "./commands",
+  "agents": "./agents",
+  "skills": "./skills"
 }

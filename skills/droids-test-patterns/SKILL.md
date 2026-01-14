@@ -1,6 +1,6 @@
 ---
 name: droids-test-patterns
-description: Testing patterns and best practices for writing comprehensive tests. Use when creating unit tests, integration tests, E2E tests, or improving test coverage.
+description: "[DROIDS-INTERNAL] Testing patterns and best practices. Only activate when invoked by droids plugin agents (test-engineer) or /droids:* commands. Do NOT auto-activate in regular conversations."
 ---
 
 # Testing Patterns & Best Practices
