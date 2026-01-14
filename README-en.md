@@ -4,31 +4,24 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Claude Code Plugin](https://img.shields.io/badge/Claude%20Code-Plugin-purple)](https://docs.claude.com/en/docs/claude-code/plugins)
+[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/cheluen/droids-workflow)
 
-Droids is a comprehensive Claude Code plugin that provides an intelligent coding workflow system with automated analysis-code-test-review feedback loops. It coordinates specialized AI agents to handle complex coding tasks with built-in quality assurance.
+Droids is a comprehensive Claude Code plugin that provides a self-healing CI/CD workflow system. It coordinates specialized AI agents (backend-engineer, frontend-engineer, code-reviewer, test-engineer, doc-writer) to handle complex coding tasks with built-in quality assurance, iterating infinitely until perfect completion.
 
 ## 🌟 Features
 
-- **🔄 Closed-Loop Feedback Control**: Automatic iteration until requirements are met and quality is approved
-- **🤖 3 Specialized Agents**: Test engineer, code reviewer, and documentation writer
+- **🔄 Self-Healing CI/CD**: Coding → Review → Test → Supervise → Loop until perfect
+- **🤖 5 Specialized Agents**: Backend engineer, frontend engineer, test engineer, code reviewer, doc writer
 - **🧪 Comprehensive Testing**: Frontend + backend testing with alignment verification
 - **🔒 Quality Assurance**: Automated code review with security, performance, and standards checks
 - **📝 Multi-Language Documentation**: Generate Chinese or English docs directly from code
-- **🎯 Lightweight Design**: Main agent directly coordinates workflow, reducing memory usage
-- **🌐 Multilingual Support**: Responds in user's language (Chinese/English)
-- **⚡ High Performance**: Optimized architecture prevents memory issues
+- **🎯 Intelligent Orchestration**: Main agent handles supervision and rule distribution
+- **🌐 Global Rule Inheritance**: Automatically passes relevant ~/.claude/CLAUDE.md rules to subagents
+- **⚡ Model Optimization**: Selects models by task complexity, balancing cost and quality
 
 ## 📦 Installation
 
-### Option 1: From Plugin Marketplace (Recommended)
-
-```bash
-# Run in Claude Code
-/plugin marketplace add cheluen/droids-workflow
-/plugin install droids
-```
-
-### Option 2: Manual Installation
+### Manual Installation
 
 ```bash
 # 1. Clone the repository
@@ -54,292 +47,268 @@ Use `/droids:start` to initiate the intelligent workflow:
 # Implement a new feature
 /droids:start Implement user authentication with JWT tokens
 
-# Add functionality to existing code
-/droids:start Add rate limiting to all API endpoints with Redis backend
+# Full-stack development
+/droids:start Implement user login with frontend and backend
 
-# Refactor with quality assurance
-/droids:start Refactor the payment module for better performance
+# Fast test mode (uses faster model)
+/droids:start Quick test the user registration feature
 ```
 
 ### Generate Documentation
 
-#### Generate Chinese Documentation
-
 ```bash
-# Document entire project in Chinese
+# Generate Chinese documentation
 /droids:cndoc
+
+# Generate English documentation
+/droids:endoc
 
 # Document specific module
 /droids:cndoc src/api/user
 ```
 
-#### Generate English Documentation
-
-```bash
-# Document entire project in English
-/droids:endoc
-
-# Document specific file
-/droids:endoc src/services/auth.ts
-```
-
 ## 🤖 The Droids Team
 
-### Main Agent (You) 🎯
-**Role**: Core coordinator and implementer
+### Main Agent (Orchestrator + Supervisor) 🎯
 
-- Analyzes requirements and creates execution plans
-- Implements core functionality directly
-- Coordinates specialized agents for support
-- Validates quality and iterates until requirements met
-- Tracks progress with TodoWrite
+**Role**: Core coordinator, rule distributor, quality supervisor
 
-**Benefit**: Reduces agent nesting, lowers memory usage
+- Reads and understands global CLAUDE.md, extracts relevant rules for subagents
+- Analyzes requirements, determines backend/frontend/fullstack scope
+- Orchestrates subagent call sequence
+- Performs supervision duties, ensures requirement alignment
+- Decides whether to continue iterating or complete
 
-### 1. Test Engineer 🧪
-**Role**: Comprehensive testing specialist
+### 1. Backend Engineer 💻
+**Model**: inherit (inherits from caller)
 
-- Writes unit, integration, and E2E tests
-- Tests both frontend and backend
-- Verifies frontend-backend alignment
-- Runs tests and reports coverage
+- Implements APIs, database operations, business logic
+- Handles authentication, authorization, data validation
+- Integrates third-party services
 
-**When to use**: Adding test coverage, verifying functionality
+**Use case**: Backend development tasks
 
-### 2. Code Reviewer 👁️
-**Role**: Quality assurance and security expert
+### 2. Frontend Engineer 🎨
+**Model**: sonnet
+
+- Implements UI components, user interactions, state management
+- Integrates with backend APIs
+- Ensures responsiveness and accessibility
+
+**Use case**: Frontend development tasks
+
+### 3. Code Reviewer 👁️
+**Model**: inherit (inherits from caller)
 
 - Reviews code quality and maintainability
-- Identifies security vulnerabilities
+- Identifies security vulnerabilities (OWASP Top 10)
 - Checks performance issues
 - Ensures coding standards compliance
 
-**When to use**: Pre-merge reviews, security audits, quality checks
+**Use case**: Code review, security audits
 
-### 3. Doc Writer 📝
-**Role**: Documentation generation specialist
+### 4. Test Engineer 🧪
+**Model**: sonnet (default) / haiku (fast mode)
+
+- Writes unit, integration, and E2E tests
+- Tests both frontend and backend
+- Runs tests and reports coverage
+
+**Use case**: Adding test coverage, verifying functionality
+
+### 5. Doc Writer 📝
+**Model**: haiku
 
 - Generates inline code comments (JSDoc, docstrings)
 - Creates API documentation
 - Writes README and usage guides
 - Supports Chinese and English
 
-**When to use**: Creating or updating documentation
+**Use case**: Creating or updating documentation
 
-## 🔄 Workflow Architecture (Optimized)
+## 🔄 Self-Healing CI/CD Workflow
 
 ```
-User Request
+User Request (/droids:start)
      ↓
-Main Agent Directly Coordinates Workflow
+Main Agent reads global CLAUDE.md, extracts rules
      ↓
-[Step 1] Main Agent analyzes requirements
+Main Agent analyzes requirements, plans tasks
      ↓
-[Step 2] Main Agent implements core functionality
+┌─────────────────────────────────────────────┐
+│              Iteration Loop                  │
+│                                             │
+│  [Coding] Backend Engineer → Frontend Eng   │
+│       ↓ (strict sequential, backend first)  │
+│  [Review] Code Reviewer                     │
+│       ↓                                     │
+│  [Test] Test Engineer                       │
+│       ↓                                     │
+│  [Supervise] Main Agent evaluates results   │
+│       ↓                                     │
+│  Pass? ─── Yes ──→ Exit Loop                │
+│    │                                        │
+│   No                                        │
+│    └──→ Fix issues → Continue Loop          │
+│                                             │
+└─────────────────────────────────────────────┘
      ↓
-[Step 3] Test Engineer → Write & run tests
-     ↓
-[Step 4] Code Reviewer → Review quality
-     ↓
-Verification → Tests pass? Quality approved?
-     ↓
-[NO] → Main Agent fixes issues → Re-test/review
-     ↓
-[YES] → [Step 5] Doc Writer → Generate docs (optional)
+[Optional] Doc Writer generates documentation
      ↓
 Task Complete
-
-Benefits:
-✅ Reduced agent nesting (no task-orchestrator needed)
-✅ Lower memory usage (3 agents instead of 5)
-✅ More direct workflow (main agent coordinates)
-✅ Maintains core functionality
 ```
 
 ## 💡 Example Workflows
 
-### Example 1: Implement New Feature
+### Example 1: Full-Stack Feature Development
 
 ```bash
-> /droids:start Add OAuth2 authentication with Google and GitHub
+> /droids:start Implement user login with frontend and backend
 
-# What happens:
-# 1. Main Agent analyzes requirement and studies existing auth system
-# 2. Main Agent implements OAuth2 integration directly
-# 3. Test Engineer writes auth tests
+# Workflow:
+# 1. Main Agent reads global rules, analyzes requirements
+# 2. Backend Engineer implements JWT authentication API
+# 3. Frontend Engineer implements login form (waits for backend)
 # 4. Code Reviewer checks security
-# 5. If issues found: Main Agent fixes and re-tests
-# 6. Doc Writer generates auth documentation (optional)
-# 7. Complete with quality assurance
+# 5. Test Engineer writes frontend and backend tests
+# 6. Main Agent supervises: checks requirement alignment, test results
+# 7. If issues: fix → re-review → re-test
+# 8. All passed → complete
 ```
 
-### Example 2: Refactor with Testing
+### Example 2: Fast Test Mode
 
 ```bash
-> /droids:start Refactor database queries to use connection pooling
+> /droids:start Quick test the payment module
 
-# What happens:
-# 1. Main Agent identifies all database queries
-# 2. Main Agent refactors to use pooling
-# 3. Test Engineer writes/updates database tests
-# 4. Code Reviewer checks for performance improvements
-# 5. Main Agent fixes if tests fail
-# 6. Doc Writer documents new database architecture
+# Main Agent detects "quick" keyword
+# Calls test-engineer with haiku model
+# Faster test completion, lower cost
 ```
 
-### Example 3: Generate Fresh Documentation
+### Example 3: Direct Agent Invocation
 
 ```bash
-> /droids:cndoc
+# Call backend engineer directly
+> Use backend-engineer to implement Redis caching layer
 
-# What happens:
-# 1. Main Agent scans entire codebase
-# 2. Doc Writer reads code directly (ignores old docs)
-# 3. Generates accurate Chinese documentation
-# 4. Creates README-zh.md, API-REFERENCE-zh.md
-# 5. Adds inline Chinese comments
+# Call frontend engineer directly
+> Use frontend-engineer to refactor the user dashboard component
+
+# Call test engineer directly
+> Use test-engineer to add tests for the auth module
 ```
 
 ## 🎯 Key Benefits
 
-### 1. Quality Assurance
-- Multiple review stages ensure high code quality
-- Automated testing catches bugs early
-- Security vulnerabilities identified
-- Performance issues detected
+### 1. Self-Healing CI/CD
+- Coding → Review → Test → Supervise closed loop
+- Automatically fixes issues and re-validates
+- Infinite iteration until perfect completion
 
-### 2. Closed-Loop Feedback
-- Automatic iteration when issues found
-- No manual back-and-forth needed
-- Continues until all requirements met
-- Prevents incomplete implementations
+### 2. Intelligent Rule Distribution
+- Main Agent reads global ~/.claude/CLAUDE.md
+- Semantic understanding, extracts relevant rules by role
+- Each subagent receives only relevant rules, avoiding context pollution
 
-### 3. Frontend-Backend Alignment
-- Contract testing ensures API compatibility
-- Data shape validation
-- Error handling consistency
-- State synchronization verification
+### 3. Strict Order Constraints
+- Backend must complete before frontend
+- Avoids frontend-backend race conditions
+- Ensures API contracts before UI implementation
 
-### 4. Accurate Documentation
-- Generated from actual code, not outdated docs
-- Supports Chinese and English
-- Keeps documentation in sync with implementation
-- Reduces documentation debt
+### 4. Model Cost Optimization
+| Agent | Model | Reason |
+|-------|-------|--------|
+| backend-engineer | inherit | Inherits from caller, flexible control |
+| frontend-engineer | sonnet | Needs to understand UI logic |
+| code-reviewer | inherit | Inherits from caller |
+| test-engineer | sonnet/haiku | Default sonnet, supports fast mode |
+| doc-writer | haiku | Documentation tasks are simple, saves cost |
 
-### 5. CLAUDE.md Integration
-- All agents respect project-specific rules
-- Follows coding standards automatically
-- Uses project's testing frameworks
-- Maintains consistency with team conventions
+### 5. Isolation Design
+- Plugin only activates on `/droids:*` commands
+- Skills marked as `[DROIDS-INTERNAL]`, won't pollute normal sessions
+- Subagents can be invoked independently or through workflow orchestration
 
 ## 📋 CLAUDE.md Integration
 
-All Droids agents automatically read and follow your project's `CLAUDE.md` files:
+Main Agent automatically reads and understands your global and project CLAUDE.md files, distributing relevant rules to corresponding subagents:
 
 ```markdown
-# Example CLAUDE.md that Droids will respect
+# Example ~/.claude/CLAUDE.md
 
-## Tech Stack
-- TypeScript, React, Node.js, PostgreSQL
+## Testing Related
+- Test environment must match production deployment platform
+- Frontend must be tested with chrome-devtool
 
-## Coding Standards
-- Use functional components
-- TypeScript strict mode
-- No `any` types
-- Comprehensive error handling
+## Code Review Related
+- No pseudo-code or placeholders allowed
+- Must review code to ensure quality
 
-## Testing Requirements
-- Minimum 80% coverage
-- Use Jest and React Testing Library
-- E2E tests for critical flows
-
-## Documentation
-- JSDoc for all public functions
-- API documentation in OpenAPI format
+## General Rules
+- Internal agent communication in English
+- User-facing information in Chinese
 ```
 
-## 🛠️ Configuration
-
-Droids works out of the box with no configuration needed. However, you can customize behavior through your project's `CLAUDE.md`:
-
-### Customize Testing
-```markdown
-# CLAUDE.md
-## Testing Framework
-- Backend: Jest + Supertest
-- Frontend: Vitest + Testing Library
-- E2E: Playwright
-```
-
-### Customize Code Review
-```markdown
-# CLAUDE.md
-## Code Review Standards
-- Security: OWASP Top 10 compliance
-- Performance: No N+1 queries
-- Quality: Cyclomatic complexity < 10
-```
-
-### Customize Documentation
-```markdown
-# CLAUDE.md
-## Documentation Standards
-- API docs in OpenAPI 3.0 format
-- Inline comments in Chinese
-- README in both English and Chinese
-```
+Main Agent will:
+- Pass testing rules to test-engineer
+- Pass review rules to code-reviewer
+- Pass general rules to all agents
 
 ## 🔧 Advanced Usage
 
-### Direct Agent Access
+### Fast Test Mode
 
-You can also call agents directly for specific tasks:
+Include "quick", "fast" keywords in your request:
 
 ```bash
-# Just write tests
-> Use the test-engineer agent to add tests for the user service
-
-# Just review code
-> Use the code-reviewer agent to review this PR for security issues
-
-# Just generate docs
-> Use the doc-writer agent to document the API endpoints
+/droids:start Quick verify login functionality
 ```
 
-### Combining with Other Tools
+test-engineer will use haiku model for faster completion.
 
-Droids works seamlessly with:
-- MCP servers (database, APIs, etc.)
-- Custom slash commands
-- Other Claude Code plugins
-- CI/CD workflows
+### Direct Agent Access
+
+```bash
+# Backend development
+> Use backend-engineer to implement payment API
+
+# Frontend development
+> Use frontend-engineer to implement shopping cart component
+
+# Code review
+> Use code-reviewer to review recent PR
+
+# Testing
+> Use test-engineer to add tests for user module
+
+# Documentation
+> Use doc-writer to generate API documentation
+```
 
 ## 📊 Workflow Monitoring
 
-The Task Orchestrator uses TodoWrite to track progress:
+Main Agent uses TodoWrite to track progress:
 
 ```
-✅ Analysis complete
-🔄 Implementation in progress
+✅ Requirements analysis complete
+✅ Backend implementation complete
+✅ Frontend implementation complete
+🔄 Code review in progress
 ⏳ Testing pending
-⏳ Review pending
-⏳ Documentation pending
+⏳ Supervision evaluation pending
 ```
-
-You can monitor the workflow in real-time as agents coordinate and complete their tasks.
 
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
-
-### Development Setup
 
 ```bash
 # Clone the repository
 git clone https://github.com/cheluen/droids-workflow.git
 
 # Test locally
-# Copy to ~/.claude/plugins/droids/ for testing
+cp -r droids-workflow ~/.claude/plugins/droids
 ```
 
 ## 📄 License
@@ -357,15 +326,6 @@ MIT License - see [LICENSE](LICENSE) file for details
 - **Issues**: Report bugs or request features on [GitHub Issues](https://github.com/cheluen/droids-workflow/issues)
 - **Discussions**: Join conversations on [GitHub Discussions](https://github.com/cheluen/droids-workflow/discussions)
 
-## 🎉 Acknowledgments
-
-Built with ❤️ for the Claude Code community.
-
-Special thanks to:
-- Anthropic for Claude Code
-- The open-source community
-- Early adopters and contributors
-
 ---
 
-**Made with 🤖 by Droids Team**
+**Made with 🤖 by Droids Team - v2.0.0**
