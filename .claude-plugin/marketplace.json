@@ -5,14 +5,14 @@
   },
   "metadata": {
     "description": "Self-Healing CI/CD Multi-Agent Workflow Plugin Marketplace",
-    "version": "2.0.0"
+    "version": "2.1.0"
   },
   "plugins": [
     {
       "name": "droids",
       "source": "./",
-      "description": "Self-healing CI/CD multi-agent workflow system. Coordinates specialized AI agents (backend-engineer, frontend-engineer, code-reviewer, test-engineer, doc-writer) with infinite iteration until perfect completion.",
-      "version": "2.0.0",
+      "description": "Self-healing CI/CD multi-agent workflow system with hook-enforced order. Coordinates specialized AI agents (backend-engineer, frontend-engineer, code-reviewer, test-engineer, doc-writer) with infinite iteration until perfect completion.",
+      "version": "2.1.0",
       "author": {
         "name": "cheluen"
       },

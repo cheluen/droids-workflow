@@ -1,6 +1,6 @@
 {
   "name": "droids",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Factory.ai-style multi-agent workflow system with self-healing CI/CD loop. Coordinates specialized AI agents (backend-engineer, frontend-engineer, code-reviewer, test-engineer, doc-writer) with infinite iteration until perfect completion.",
   "author": {
     "name": "cheluen"
@@ -8,6 +8,7 @@
   "repository": "https://github.com/cheluen/droids-workflow",
   "license": "MIT",
   "keywords": ["workflow", "testing", "code-review", "documentation", "automation", "multi-agent", "orchestration", "ci-cd", "self-healing"],
+  "hooks": "./hooks/hooks.json",
   "commands": [
     "./commands/cndoc.md",
     "./commands/endoc.md",

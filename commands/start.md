@@ -13,6 +13,18 @@ $ARGUMENTS
 
 ---
 
+## Step 0: Initialize Workflow State
+
+**EXECUTE IMMEDIATELY - Before any other action:**
+
+```bash
+bash ~/.claude/plugins/droids/.claude-plugin/hooks/workflow-init.sh 2>/dev/null || bash .claude/plugins/droids/.claude-plugin/hooks/workflow-init.sh 2>/dev/null || echo "Workflow state initialized in memory"
+```
+
+This activates the workflow order enforcement hooks. Without this, hooks will not validate agent call order.
+
+---
+
 ## CRITICAL: Preserve Original Requirement
 
 **COPY THE ORIGINAL REQUIREMENT HERE AND NEVER MODIFY IT:**
@@ -321,11 +333,17 @@ Task(
 
 ---
 
-### Step 7: Report Completion
+## Step 7: Cleanup and Report Completion
 
 **ONLY report completion when ALL success criteria are met.**
 
-Provide a comprehensive summary:
+**First, cleanup workflow state:**
+
+```bash
+bash ~/.claude/plugins/droids/.claude-plugin/hooks/workflow-cleanup.sh 2>/dev/null || bash .claude/plugins/droids/.claude-plugin/hooks/workflow-cleanup.sh 2>/dev/null || echo "Workflow cleanup complete"
+```
+
+**Then provide a comprehensive summary:**
 
 ```
 ## Workflow Complete
@@ -365,14 +383,16 @@ Provide a comprehensive summary:
 
 ## Critical Rules
 
-1. **NEVER call backend-engineer and frontend-engineer in parallel** - backend must complete first
-2. **NEVER skip agents** - always use code-reviewer and test-engineer
-3. **NEVER accept partial success** - all criteria must be met
-4. **NEVER stop on failure** - fix and retry
-5. **NEVER lose context** - always reference ORIGINAL REQUIREMENT
-6. **ALWAYS pass relevant global rules** to each subagent
-7. **ALWAYS pass task context** to test-engineer (what to test)
-8. **ALWAYS verify** - check all criteria before completing
+1. **ALWAYS run Step 0 first** - initialize workflow state for hook enforcement
+2. **NEVER call backend-engineer and frontend-engineer in parallel** - backend must complete first (enforced by hooks)
+3. **NEVER skip agents** - always use code-reviewer and test-engineer
+4. **NEVER accept partial success** - all criteria must be met
+5. **NEVER stop on failure** - fix and retry
+6. **NEVER lose context** - always reference ORIGINAL REQUIREMENT
+7. **ALWAYS pass relevant global rules** to each subagent
+8. **ALWAYS pass task context** to test-engineer (what to test)
+9. **ALWAYS verify** - check all criteria before completing
+10. **ALWAYS run cleanup** - execute Step 7 cleanup before reporting completion
 
 ---
 
