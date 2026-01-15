@@ -4,21 +4,21 @@
     "name": "cheluen"
   },
   "metadata": {
-    "description": "Factory.ai-style Multi-Agent Workflow Plugin Marketplace",
-    "version": "1.2.0"
+    "description": "Self-Healing CI/CD Multi-Agent Workflow Plugin Marketplace",
+    "version": "2.0.0"
   },
   "plugins": [
     {
       "name": "droids",
       "source": "./",
-      "description": "Factory.ai-style multi-agent workflow system. Coordinates specialized AI agents (test-engineer, code-reviewer, supervisor, doc-writer) with infinite iteration until perfect completion and context drift prevention.",
-      "version": "1.2.0",
+      "description": "Self-healing CI/CD multi-agent workflow system. Coordinates specialized AI agents (backend-engineer, frontend-engineer, code-reviewer, test-engineer, doc-writer) with infinite iteration until perfect completion.",
+      "version": "2.0.0",
       "author": {
         "name": "cheluen"
       },
       "repository": "https://github.com/cheluen/droids-workflow",
       "license": "MIT",
-      "keywords": ["workflow", "testing", "code-review", "documentation", "automation", "multi-agent", "orchestration", "supervisor"]
+      "keywords": ["workflow", "testing", "code-review", "documentation", "automation", "multi-agent", "orchestration", "ci-cd", "self-healing"]
     }
   ]
 }
