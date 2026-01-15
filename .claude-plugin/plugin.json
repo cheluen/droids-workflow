@@ -8,7 +8,6 @@
   "repository": "https://github.com/cheluen/droids-workflow",
   "license": "MIT",
   "keywords": ["workflow", "testing", "code-review", "documentation", "automation", "multi-agent", "orchestration", "ci-cd", "self-healing"],
-  "hooks": "./hooks/hooks.json",
   "commands": [
     "./commands/cndoc.md",
     "./commands/endoc.md",
